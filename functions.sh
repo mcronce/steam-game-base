@@ -21,7 +21,7 @@ function overwrite_default_file() {
 		cp -avf "${sample_file}" "${file}";
 		for var in $*; do
 			echo ">>> ${var} = ${!var}";
-			if [ -z "${!var}" ]; then
+			if [ -z "${!var+x}" ]; then
 				echo "!!! \${${var}} not set";
 				exit 1;
 			fi;
