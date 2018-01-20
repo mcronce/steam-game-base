@@ -20,6 +20,10 @@ function overwrite_default_file() {
 		echo "--- '${file}' not found; using '${sample_file}' with env overrides"
 		cp -avf "${sample_file}" "${file}";
 		for var in $*; do
+			# Explanation of syntaxes:
+			#    ${!var} means "use the value of the variable whose name is the value of $var"
+			#    ${var+x} is a substitution useful in a [ -z ] conditional to make sure a variable is set; just using ${var} would also trigger on empty but set variables
+			#    ${!var+x} puts them together; it takes the value of the variable whose name is the value of $var, and does the same substitution on it for a [ -z ] conditional.
 			echo ">>> ${var} = ${!var}";
 			if [ -z "${!var+x}" ]; then
 				echo "!!! \${${var}} not set";
